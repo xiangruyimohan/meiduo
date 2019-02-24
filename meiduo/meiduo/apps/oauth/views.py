@@ -15,6 +15,7 @@ from carts.utils import merge_cart_cookie_to_redis
 
 logger = logging.getLogger('django')
 
+
 # Create your views here.
 class QQAuthUserView(APIView):
     """扫码成功后回调处理"""
@@ -67,9 +68,6 @@ class QQAuthUserView(APIView):
 
             return response
 
-
-
-
     def post(self, request):
 
         # 创建序列化器对象,进行反序列化
@@ -94,8 +92,6 @@ class QQAuthUserView(APIView):
         merge_cart_cookie_to_redis(request, user, response)
 
         return response
-
-
 
 
 class QQAuthURLView(APIView):
@@ -125,7 +121,6 @@ class QQAuthURLView(APIView):
                           state=next)
         # 3.调用它里面的get_qq_url方法来拿到拼接好的扫码链接
         login_url = oauthqq.get_qq_url()
-
 
         # 4.把扫码url响应给前端
         return Response({'login_url': login_url})

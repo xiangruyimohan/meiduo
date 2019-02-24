@@ -18,7 +18,6 @@ class CartView(APIView):
         """禁用认证/延后认证"""
         pass
 
-
     def post(self, request):
         """添加购物车"""
         serializer = CartSerializer(data=request.data)

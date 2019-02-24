@@ -2,9 +2,12 @@ from django.shortcuts import render
 from drf_haystack.viewsets import HaystackViewSet
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import OrderingFilter
+from rest_framework.permissions import IsAuthenticated
 
 from .models import SKU
-from .serializers import SKUSerializer, SKUSearchSerializer
+from .serializers import SKUSerializer, SKUSearchSerializer, AllOrderSerializer
+from utils.paginations import StandardResultsSetPagination
+from orders.models import OrderInfo
 
 
 # Create your views here.
@@ -35,3 +38,22 @@ class SKUSearchViewSet(HaystackViewSet):
     index_models = [SKU]
 
     serializer_class = SKUSearchSerializer
+
+
+class SKUListOrderView(ListAPIView):
+
+    # 指定权限
+    permission_classes = [IsAuthenticated]
+
+    # 指定序列化器
+    serializer_class = AllOrderSerializer
+
+    # 指定分页
+    pagination_class = StandardResultsSetPagination
+
+    def get_queryset(self):
+        user = self.request.user
+        user_orders = OrderInfo.objects.filter(user_id=1)
+
+        return user_orders
+
