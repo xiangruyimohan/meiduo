@@ -12,7 +12,7 @@ from django_redis import get_redis_connection
 from rest_framework_jwt.views import ObtainJSONWebToken
 
 from .serializers import UserSerializer, UserDetailSerializer, EmailSerializer, UserAddressSerializer, \
-    AddressTitleSerializer, UserBrowseHistorySerializer
+    AddressTitleSerializer, UserBrowseHistorySerializer, UpdatePasswordSerializer
 
 from .models import User, Address
 from goods.models import SKU
@@ -21,6 +21,14 @@ from carts.utils import merge_cart_cookie_to_redis
 
 
 # Create your views here.
+
+class UpdatePasswordView(UpdateAPIView):
+    """修改密码"""
+    permission_classes = [IsAuthenticated]
+    serializer_class = UpdatePasswordSerializer
+    queryset = User.objects.all()
+
+
 class UserAuthorizeView(ObtainJSONWebToken):
     """重写账号密码登录视图"""
 

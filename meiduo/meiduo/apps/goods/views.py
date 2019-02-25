@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import SKU
 from .serializers import SKUSerializer, SKUSearchSerializer, AllOrderSerializer
-from utils.paginations import StandardResultsSetPagination
+from meiduo.utils.paginations import StandardResultsSetPagination
 from orders.models import OrderInfo
 
 
