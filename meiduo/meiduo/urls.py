@@ -42,4 +42,6 @@ urlpatterns = [
     url(r'^', include('orders.urls')),
     # 支付宝模块
     url(r'^', include('payment.urls')),
+    # 找回密码
+    url(r'^', include('findpassword.urls')),
 ]
