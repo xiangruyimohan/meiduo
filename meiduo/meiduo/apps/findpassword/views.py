@@ -147,21 +147,4 @@ class ChangePassword(APIView):
         user.save()
         return Response(status=status.HTTP_200_OK)
 
-    def put(self, request, user_id):
-        # 重置密码
-        user = User.objects.get(id=user_id)
-        real_password = user.password
-        old_password = request.data.get("old_password")
-        password = request.data.get("password")
-        password2 = request.data.get("password2")
-        if password != password2:
-            return Response({"message": "两次输入密码不对"}, status=status.HTTP_400_BAD_REQUEST)
-        pwd_bool = check_password(old_password, real_password)
-        if pwd_bool:
-            return Response({"message": "旧密码输入错误"}, status=status.HTTP_400_BAD_REQUEST)
-        if old_password == password2:
-            return Response({"message": "请勿设置旧密码一样密码"}, status=status.HTTP_400_BAD_REQUEST)
-        # 保存新密码
-        user.set_password(password2)
-        user.save()
-        return Response(status=status.HTTP_200_OK)
+    
