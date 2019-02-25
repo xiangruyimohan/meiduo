@@ -52,8 +52,8 @@ class SKUListOrderView(ListAPIView):
     pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
-        user = self.request.user
-        user_orders = OrderInfo.objects.filter(user_id=1)
+        user_id = self.request.user
+        user_orders = OrderInfo.objects.filter(user_id=user_id)
 
         return user_orders
 
