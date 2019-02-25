@@ -31,7 +31,7 @@ urlpatterns = [
     url(r'^', include('users.urls')),
 
     # qq模块
-    url(r'^oauth/', include('oauth.urls')),
+    url(r'^', include('oauth.urls')),
     # 省市区
     url(r'^', include('areas.urls')),
     # 商品模块
