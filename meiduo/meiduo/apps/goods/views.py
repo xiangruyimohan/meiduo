@@ -14,11 +14,10 @@ from meiduo.utils.paginations import StandardResultsSetPagination
 from orders.models import OrderInfo, OrderGoods
 
 
-
 # Create your views here.
 # /categories/(?P<category_id>\d+)/skus?page=xxx&page_size=xxx&ordering=xxx
 
-#获取评论的视图函数
+# 获取评论的视图函数
 class GetcommentView(APIView):
 
     def get(self, request, sku_id):
