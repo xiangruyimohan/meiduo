@@ -28,7 +28,7 @@ class UncommentgoodsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, order_id):
-        ordergoods = OrderGoods.objects.filter(order_id=order_id)
+        ordergoods = OrderGoods.objects.filter(order_id=order_id, is_commented=False)
         return Response(Orderserializer(ordergoods, many=True).data)
 
 
@@ -42,12 +42,23 @@ class SavecommentView(APIView):
         ordergood.comment = request.data['comment']
         ordergood.is_commented = True
         ordergood.save()
+
+        orderinfo = ordergood.order
+        if orderinfo.status == 4:
+            all_comment = True
+            for skus in orderinfo.skus.all():
+                if skus.is_commented is False:
+                    all_comment = False
+
+            if all_comment:
+                orderinfo.status = 5
+                orderinfo.save()
+
         return Response("提交评论成功", status=status.HTTP_201_CREATED)
 
 
 # Create your views here.
 class CommitOrderView(CreateAPIView):
-
     # 指定权限
     permission_classes = [IsAuthenticated]
 
