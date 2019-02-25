@@ -18,13 +18,9 @@ from oauth.utils import generate_save_user_token, check_save_user_token
 # Create your views here.
 
 class FindUser(APIView):
-    """
-    用户名数量
-    """
+
     def get(self, request, username):
-        """
-        获取指定用户是否存在,查看用户名在数据库数量,大于0说明有
-        """
+
         # 核对验证码
         text = request.query_params.get('text')
         image_code_id = request.query_params.get('image_code_id')
@@ -35,9 +31,10 @@ class FindUser(APIView):
         if redis_text != text:
             return Response({"message": "验证码错误"}, status=status.HTTP_400_BAD_REQUEST)
 
-        user = User.objects.get(username=username)
-        if not user:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response({"message": "用户名不存在"}, status=status.HTTP_404_NOT_FOUND)
 
         # 补充生成记录登录状态的token
         mobile = user.mobile
@@ -146,5 +143,4 @@ class ChangePassword(APIView):
         user.set_password(new_password)
         user.save()
         return Response(status=status.HTTP_200_OK)
-
     
